@@ -1,5 +1,12 @@
 # Assignment4
- CP386 Assignment 4 
- Group 7 Members:
-    Fatima Omar 191815080 
-    Mohammad Al Zouabi 190977620
+Title: CP386 Assignment 4 
+***********************************
+ Authors:
+   Fatima Omar 
+      Student ID#: 191815080 
+      Github Username: FatimaOmarZ
+   Mohammad Al Zouabi
+      Student ID#:190977620
+      Github Username: 
+***********************************
+
