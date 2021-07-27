@@ -35,7 +35,7 @@ int remaining_needed[] ;
 
 //return 0 if successful and -1 if unsuccessful
 int request_resources(int customer_num, int request[]);
-//
+//prints the current state of the arrays
 void print_Curr_State();
 int bankers_algo(int customer_number, int request[]);
 void release_resources(int customer_num, int release[]);
