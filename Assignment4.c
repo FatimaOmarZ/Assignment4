@@ -108,6 +108,19 @@ int main(int argc, char* argv[]){
                 printf("%s\n", ptr);
                 ptr = strtok(NULL, delimiter);
 		    // add the code to split the string into an array
+		        char *string,*found;
+    			char *list[100];
+    			int i = 0;
+
+    			string = strdup("test this text");
+   			 //int n = strlen(string);
+    			printf("Original string: '%s'\n",string);
+
+    			while( (list[i] = strsep(&string," ")) != NULL )
+        
+        			printf("%s\n", list[i]);
+        			i += 1;
+		
                 
             }
             request_resources(customer,request);
