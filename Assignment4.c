@@ -31,7 +31,7 @@ int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 int remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 
 
-
+// this is new
 //return 0 if successful and -1 if unsuccessful
 int request_resources(int customer_num, int request);
 int extract_customer(char str[]);
