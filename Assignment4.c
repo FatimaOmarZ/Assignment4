@@ -61,9 +61,9 @@ int main(int argc, char* argv[]){
 
     int i=0,j=0;
 
-    int *allocated_resources [num_of_customers][num_of_resources];
-    //=(int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
-    int *remaining_needed [num_of_customers][num_of_resources];
+    // int *allocated_resources [num_of_customers][num_of_resources];
+    // //=(int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
+    // int *remaining_needed [num_of_customers][num_of_resources];
     //= (int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
     //int *max_required [num_of_customers][num_of_resources];
     //= (int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
@@ -73,13 +73,16 @@ int main(int argc, char* argv[]){
     // allocated_resources[num_of_customers][num_of_resources];
     // /* the remaining need of each customer */
     // remaining_needed[num_of_customers][num_of_resources] ;
-    for(i=0 ;i<num_of_customers;i++){
-        for(j=0;j<num_of_resources;j++){
-           // max_required[i][j]=0;
-            remaining_needed[i][j]=0;
-            allocated_resources[i][j]=0;
-        }
-    }
+   
+   
+   
+    // for(i=0 ;i<num_of_customers;i++){
+    //     for(j=0;j<num_of_resources;j++){
+    //        // max_required[i][j]=0;
+    //         remaining_needed[i][j]=0;
+    //         allocated_resources[i][j]=0;
+    //     }
+    // }
     int max_required[5][4] ={{6,4,7,3}, 
                              {4,2,3,2},
                              {2,5,3,3}, 
@@ -100,15 +103,61 @@ int main(int argc, char* argv[]){
         }
 
     }
-    char str[20];
-    do{
-        printf("Enter Command: ");
-        scanf("%s", str);
-        // char *token = strtok(str, " ");
-        // if(strcmp(str,))
-        // printf("%c",str[2]);
-        if(strcmp(str, ""))
-            
-    }while(strcmp(str,"Exit")!=0);
+    // char str[15];
+
+    // printf("Enter Command: ");
+    // fgets(str,14,stdin);
+    // do{
+        
+    //     // scanf("%[^\n]s", str);
+    //     // getchar();
+    //     char strn[5];
+    //     // char cust_num[2];
+    //     printf("Enter Command: ");
+    //     // }
+    //     fgets(str,14,stdin);
+    //     str[strlen(str)-1]='\0';
+    //     
+    int ch;
+    char check[20]={'\0'};
+    // printf("Enter Command: ");
+    // fgets(check,sizeof(check),stdin);
+    //     // char strn[5];
+    while((ch = getchar()) != '\n' && ch != EOF);
+    while(1) {
+        
+       
+        // char strn[5];
+        printf("Enter Command: \n");
+        fgets(check,sizeof(check),stdin);
+        puts(check);
+        
+        if (strncmp(check, "exit", 4) == 0) {
+            return 0;
+        }
+        
+        else if(strncmp(check,"RQ",2)==0){
+            printf("going to request resources func\n");
+            printf("%c%c\n",check[0],check[1]);
+
+            // return;
+        }
+        else if(strncmp(check,"RL",2)==0){
+            printf("its rl");
+        }
+        else if(strncmp(check,"Status",6)==0){
+            printf("its status");
+        }
+        else if(strncmp(check,"Run",3)==0){
+            printf("its run");
+        }
+        // printf("%s\n",str);
+        // if(strcmp(str[], "")){
+        
+    }
 	return 0;
 }
+
+// int request_resources(int customer_num, int request[]){
+    
+// }
