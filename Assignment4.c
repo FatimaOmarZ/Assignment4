@@ -13,7 +13,9 @@
 #include<pthread.h>
 #include<sys/stat.h>
 
-
+// int n,m;
+// int NUMBER_OF_CUSTOMERS= n;
+// int NUMBER_OF_RESOURCES= m;
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
 int customer_num= 0, count=0;
