@@ -16,27 +16,28 @@
 // int n,m;
 // int NUMBER_OF_CUSTOMERS= n;
 // int NUMBER_OF_RESOURCES= m;
-// #define num_of_customers 5
-// #define num_of_resources 4
+#define NUM_OF_CUSTOMERS 5
+#define NUM_OF_RESOURCES 4
 int customer_num= 0, count=0;
 pthread_mutex_t mutex;
-int num_of_resources, num_of_customers;
+int NUM_OF_RESOURCES, NUM_OF_CUSTOMERS;
 //from the textbook chapter 8
-// typedef struct banker{
+
 /* the available amount of each resource */
-//int available_resources;   
+int available_resources[NUM_OF_RESOURCES];   
 /*the maximum demand of each customer */
-// int *max_required[][num_of_resources];
+int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 /* the amount currently allocated to each customer */
-int *allocated_resources;
+int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 /* the remaining need of each customer */
-int *remaining_needed;
+int remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 
 
 
 //return 0 if successful and -1 if unsuccessful
 int request_resources(int customer_num, int request);
-//
+int extract_customer(char str[]);
+int* extract_array(char str[]);
 void print_Curr_State();
 int bankers_algo(int customer_number, int request);
 void release_resources(int customer_num, int release);
@@ -52,38 +53,16 @@ int main(int argc, char* argv[]){
         printf("%d ",available_resources[i]);
 	}
     printf("\n");
-    num_of_resources= count;
+    // num_of_resources= count;
     
-    printf("Enter number of customers: ");
-    scanf("%d",(&num_of_customers));
-    // printf("%d",num_of_resources);
-    // max_required[][]=(int*)realloc(max_required, (sizeof(int));
+    // printf("Enter number of customers: ");
+    // scanf("%d",(&num_of_customers));
+    
 
     int i=0,j=0;
 
-    // int *allocated_resources [num_of_customers][num_of_resources];
-    // //=(int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
-    // int *remaining_needed [num_of_customers][num_of_resources];
-    //= (int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
-    //int *max_required [num_of_customers][num_of_resources];
-    //= (int*) malloc (sizeof (int)*num_of_customers*num_of_resources);
-    
- 
-       
-    // allocated_resources[num_of_customers][num_of_resources];
-    // /* the remaining need of each customer */
-    // remaining_needed[num_of_customers][num_of_resources] ;
    
-   
-   
-    // for(i=0 ;i<num_of_customers;i++){
-    //     for(j=0;j<num_of_resources;j++){
-    //        // max_required[i][j]=0;
-    //         remaining_needed[i][j]=0;
-    //         allocated_resources[i][j]=0;
-    //     }
-    // }
-    int max_required[5][4] ={{6,4,7,3}, 
+    int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES] ={{6,4,7,3}, 
                              {4,2,3,2},
                              {2,5,3,3}, 
                              {6,3,3,2}, 
@@ -103,44 +82,38 @@ int main(int argc, char* argv[]){
         }
 
     }
-    // char str[15];
-
-    // printf("Enter Command: ");
-    // fgets(str,14,stdin);
-    // do{
-        
-    //     // scanf("%[^\n]s", str);
-    //     // getchar();
-    //     char strn[5];
-    //     // char cust_num[2];
-    //     printf("Enter Command: ");
-    //     // }
-    //     fgets(str,14,stdin);
-    //     str[strlen(str)-1]='\0';
-    //     
+    
     int ch;
     char check[20]={'\0'};
-    // printf("Enter Command: ");
-    // fgets(check,sizeof(check),stdin);
-    //     // char strn[5];
+   
     while((ch = getchar()) != '\n' && ch != EOF);
+    
     while(1) {
         
-       
-        // char strn[5];
         printf("Enter Command: \n");
         fgets(check,sizeof(check),stdin);
-        puts(check);
+        // puts(check);
         
-        if (strncmp(check, "exit", 4) == 0) {
-            return 0;
+        if (strncmp(check, "Exit", 4) == 0) {
+            break;
         }
         
         else if(strncmp(check,"RQ",2)==0){
-            printf("going to request resources func\n");
-            printf("%c%c\n",check[0],check[1]);
+           
+            int strsize = strlen(check);
+            char delimiter[] = " ";
+            char array[6]={0,0,0,0,0,0};
+            int x=0;
+            char *ptr = strtok(check, delimiter);
+            while(ptr != NULL)
+            {
+                printf("%s\n", ptr);
+                ptr = strtok(NULL, delimiter);
+                
+            }
+            request_resources(customer,request);
 
-            // return;
+            
         }
         else if(strncmp(check,"RL",2)==0){
             printf("its rl");
@@ -151,9 +124,71 @@ int main(int argc, char* argv[]){
         else if(strncmp(check,"Run",3)==0){
             printf("its run");
         }
-        // printf("%s\n",str);
-        // if(strcmp(str[], "")){
+        
         
     }
 	return 0;
+}
+
+int request_resources(int customer_num, int request[]){
+    
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){
+        if(request[i]<=remaining_needed[customer_num+1][i]){
+            if(request[i]<=available_resources[i]){
+                available_resources[i]= available_resources[i]-request[i];
+                allocated_resources[customer_num+1][i]=allocated_resources[customer_num+1][i]+request[i];
+                remaining_needed[customer_num+1][i]=remaining_needed[customer_num+1][i]+request[i];
+                printf("State is safe, and request is satisfied")
+            }
+        }else{
+            printf("State is unsafe, and request is unsatisfied");
+            return 0;
+        }
+    }
+return 0;
+}
+
+void print_Curr_State(){
+    int i,j;
+    printf("\nAvailable Resources:\n");
+    for(j=0;j<4;j++){
+        printf("%d ",available_resources[i]);
+        
+    }
+    printf("\nMaximum Resources:\n");
+    for(i=0 ;i<5;i++){
+        int n=0;
+        for(j=0;j<4;j++){
+            printf("%d ",max_required[i][j]);
+            n++;
+            if(n==4){
+                printf("\n");
+            }
+        }
+
+    }
+
+     printf("\nAllocated Resources:\n");
+    for(i=0 ;i<5;i++){
+        int n=0;
+        for(j=0;j<4;j++){
+            printf("%d ",allocated_resources[i][j]);
+            n++;
+            if(n==4){
+                printf("\n");
+            }
+        }
+    }
+    printf("\nNeed Resources:\n");
+    for(i=0 ;i<5;i++){
+        int n=0;
+        for(j=0;j<4;j++){
+            printf("%d ",remaining_needed[i][j]);
+            n++;
+            if(n==4){
+                printf("\n");
+            }
+        }
+
+    }
 }
