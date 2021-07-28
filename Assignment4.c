@@ -157,7 +157,3 @@ int main(int argc, char* argv[]){
     }
 	return 0;
 }
-
-// int request_resources(int customer_num, int request[]){
-    
-// }
