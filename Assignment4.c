@@ -107,6 +107,7 @@ int main(int argc, char* argv[]){
             {
                 printf("%s\n", ptr);
                 ptr = strtok(NULL, delimiter);
+		    // add the code to split the string into an array
                 
             }
             request_resources(customer,request);
