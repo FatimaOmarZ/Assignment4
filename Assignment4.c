@@ -13,27 +13,35 @@
 #include<pthread.h>
 #include<sys/stat.h>
 
-
+// int n,m;
+// int NUMBER_OF_CUSTOMERS= n;
+// int NUMBER_OF_RESOURCES= m;
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
 int customer_num= 0, count=0;
 pthread_mutex_t mutex;
-int NUM_OF_RESOURCES, NUM_OF_CUSTOMERS;
+
 //from the textbook chapter 8
 
 /* the available amount of each resource */
 int available_resources[NUM_OF_RESOURCES];   
 /*the maximum demand of each customer */
-int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
+int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES] ={
+                            {6,4,7,3}, 
+                             {4,2,3,2},
+                             {2,5,3,3}, 
+                             {6,3,3,2}, 
+                             {5,5,7,5}
+                             };
 /* the amount currently allocated to each customer */
 int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 /* the remaining need of each customer */
-int remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
+int remaining_needed[5][4];
 
 
-// this is new
+
 //return 0 if successful and -1 if unsuccessful
-int request_resources(int customer_num, int request);
+// int request_resources(int customer_num, int request);
 int extract_customer(char str[]);
 int* extract_array(char str[]);
 void print_Curr_State();
@@ -43,7 +51,6 @@ int safety_algorithm(int processes, int available_resources, int max_required,in
 
 int main(int argc, char* argv[]){
     count = argc - 1;
-	int *available_resources =(int*) calloc(count+1,sizeof (int));
 	// printf("%d\n%d\n",argc,count);
     printf("Currently available resources: ");
 	for (int i=0; i<count; i++){
@@ -59,13 +66,13 @@ int main(int argc, char* argv[]){
 
     int i=0,j=0;
 
-   
-    int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES] ={{6,4,7,3}, 
-                             {4,2,3,2},
-                             {2,5,3,3}, 
-                             {6,3,3,2}, 
-                             {5,5,7,5}
-                             };
+   //RQ 1 2 3 4 5
+    // max_required[5][4] ={{6,4,7,3}, 
+    //                          {4,2,3,2},
+    //                          {2,5,3,3}, 
+    //                          {6,3,3,2}, 
+    //                          {5,5,7,5}
+    //                          };
     
    
     printf("Maximum resources from file:\n");
@@ -81,10 +88,10 @@ int main(int argc, char* argv[]){
 
     }
     
-    int ch;
+    // int ch;
     char check[20]={'\0'};
    
-    while((ch = getchar()) != '\n' && ch != EOF);
+   // while((ch = getchar()) != '\n' && ch != EOF);
     
     while(1) {
         
@@ -98,32 +105,31 @@ int main(int argc, char* argv[]){
         
         else if(strncmp(check,"RQ",2)==0){
            
-            int strsize = strlen(check);
-            char delimiter[] = " ";
-            char array[6]={0,0,0,0,0,0};
-            int x=0;
-            char *ptr = strtok(check, delimiter);
-            while(ptr != NULL)
-            {
-                printf("%s\n", ptr);
-                ptr = strtok(NULL, delimiter);
-		    // add the code to split the string into an array
-		        char *string,*found;
-    			char *list[100];
-    			int i = 0;
-
-    			string = strdup("test this text");
+            // int strsize = strlen(check);
+            // char delimiter[] = " ";
+            char *array[6]={'\0'};
+            // int x=0;
+            // char *ptr = strtok(check, delimiter);
+            // while(ptr != NULL)
+            // {
+            //     printf("%s\n", ptr);
+            //     ptr = strtok(NULL, delimiter);
+		    // // add the code to split the string into an array
+		    //     char *string,*found;
+    		// 	char *list[100];
+    		i = 0;
+                // char *string;
+    			// string = strdup("test this text");
    			 //int n = strlen(string);
-    			printf("Original string: '%s'\n",string);
+    		printf("Original string: '%s'\n",check);
 
-    			while( (list[i] = strsep(&string," ")) != NULL )
-        
-        			printf("%s\n", list[i]);
-        			i += 1;
-		
+    		while( (array[i] = strsep(check," ")) != NULL )
+            printf("%c\n", array[i]);
+        	i += 1;
+            
                 
-            }
-            request_resources(customer,request);
+            
+            // request_resources(customer,request);
 
             
         }
@@ -150,7 +156,7 @@ int request_resources(int customer_num, int request[]){
                 available_resources[i]= available_resources[i]-request[i];
                 allocated_resources[customer_num+1][i]=allocated_resources[customer_num+1][i]+request[i];
                 remaining_needed[customer_num+1][i]=remaining_needed[customer_num+1][i]+request[i];
-                printf("State is safe, and request is satisfied")
+                printf("State is safe, and request is satisfied");
             }
         }else{
             printf("State is unsafe, and request is unsatisfied");
@@ -161,7 +167,7 @@ return 0;
 }
 
 void print_Curr_State(){
-    int i,j;
+    int i=0,j=0;
     printf("\nAvailable Resources:\n");
     for(j=0;j<4;j++){
         printf("%d ",available_resources[i]);
@@ -180,7 +186,7 @@ void print_Curr_State(){
 
     }
 
-     printf("\nAllocated Resources:\n");
+    printf("\nAllocated Resources:\n");
     for(i=0 ;i<5;i++){
         int n=0;
         for(j=0;j<4;j++){
