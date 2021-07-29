@@ -12,13 +12,13 @@
 #include<string.h>
 #include<pthread.h>
 #include<sys/stat.h>
-
+#include <ctype.h>
 // int n,m;
 // int NUMBER_OF_CUSTOMERS= n;
 // int NUMBER_OF_RESOURCES= m;
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
-int customer_num= 0, count=0;
+int count=0;
 pthread_mutex_t mutex;
 
 //from the textbook chapter 8
@@ -42,10 +42,10 @@ int remaining_needed[5][4];
 
 //return 0 if successful and -1 if unsuccessful
 // int request_resources(int customer_num, int request);
-int extract_customer(char str[]);
-int* extract_array(char str[]);
+// int extract_customer(char str[]);
+// int* extract_array(char str[]);
 void print_Curr_State();
-int bankers_algo(int customer_number, int request);
+// int bankers_algo(int customer_number, int request);
 void release_resources(int customer_num, int release);
 int safety_algorithm(int processes, int available_resources, int max_required,int allocated_resources);
 
@@ -90,9 +90,10 @@ int main(int argc, char* argv[]){
     
     // int ch;
     char check[20]={'\0'};
+    char *test;
    
    // while((ch = getchar()) != '\n' && ch != EOF);
-    
+    test = check;
     while(1) {
         
         printf("Enter Command: \n");
@@ -118,14 +119,30 @@ int main(int argc, char* argv[]){
 		    //     char *string,*found;
     		// 	char *list[100];
     		i = 0;
+            int p=0;
                 // char *string;
     			// string = strdup("test this text");
    			 //int n = strlen(string);
-    		printf("Original string: '%s'\n",check);
+            int arr[5];
+            //int customer_number;
+    		printf("Original string: '%s'",check);
+            printf("\n");
+            
+    		while(strsep(&test," ") != NULL)
+            if(isdigit(strsep(&test," "))>0) {
+                array[i]=strsep(&test," "); 
+                // arr[p]=atoi(array[i]); 
+                p++;i ++;
+            }
+            printf("%s\n", array[i]);
+            // printf("%d ",arr[p]);
+        	
+            //  if(i>2){arr[p]=atoi(array[i]), p++;}
+            //     // else if(i==2) customer_number= atoi(array[i]);
+            //     
 
-    		while( (array[i] = strsep(check," ")) != NULL )
-            printf("%c\n", array[i]);
-        	i += 1;
+            
+           // printf("%d",customer_number);
             
                 
             
@@ -137,7 +154,7 @@ int main(int argc, char* argv[]){
             printf("its rl");
         }
         else if(strncmp(check,"Status",6)==0){
-            printf("its status");
+            print_Curr_State();
         }
         else if(strncmp(check,"Run",3)==0){
             printf("its run");
@@ -169,7 +186,7 @@ return 0;
 void print_Curr_State(){
     int i=0,j=0;
     printf("\nAvailable Resources:\n");
-    for(j=0;j<4;j++){
+    for(j=0;j<count;j++){
         printf("%d ",available_resources[i]);
         
     }
@@ -209,4 +226,6 @@ void print_Curr_State(){
         }
 
     }
+
+
 }
