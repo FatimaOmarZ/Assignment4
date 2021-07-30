@@ -15,11 +15,6 @@
 #include <ctype.h>
 
 
-/*we're now allowed to hardcode the number of customers and the number of resources
-and also allowed to hardcode the max_required array
-the makefile was also provided by the professor later
-ive commented on the part where im struggling inside the main inside the while loop
-*/
 
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
@@ -95,10 +90,7 @@ int main(int argc, char* argv[]){
         if (strncmp(check, "Exit", 4) == 0) {
             break; //exit the loop
         }
-        // if user inputs "RQ 2 3 4 5 6"
-        // means Requesting resources {3,4,5,6} for customer 2 
-        //struggling on this part where 
-        //i have to extract the customer number and the resource array
+       
 
         else if(strncmp(check,"RQ",2)==0){
            
