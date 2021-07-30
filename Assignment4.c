@@ -13,67 +13,48 @@
 #include<pthread.h>
 #include<sys/stat.h>
 #include <ctype.h>
-// int n,m;
-// int NUMBER_OF_CUSTOMERS= n;
-// int NUMBER_OF_RESOURCES= m;
+
+
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
 int count=0;
 pthread_mutex_t mutex;
 
 //from the textbook chapter 8
-
 /* the available amount of each resource */
 int available_resources[NUM_OF_RESOURCES];   
 /*the maximum demand of each customer */
 int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES] ={
                             {6,4,7,3}, 
-                             {4,2,3,2},
-                             {2,5,3,3}, 
-                             {6,3,3,2}, 
-                             {5,5,7,5}
-                             };
+                            {4,2,3,2},
+                            {2,5,3,3}, 
+                            {6,3,3,2}, 
+                            {5,5,7,5}
+                            };
 /* the amount currently allocated to each customer */
 int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 /* the remaining need of each customer */
-int remaining_needed[5][4];
+int remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
+int request_resources2(int customer_num, int request[]);
+int request_resources(int customer_num, int request[]);
 
-
-
-//return 0 if successful and -1 if unsuccessful
-// int request_resources(int customer_num, int request);
-// int extract_customer(char str[]);
-// int* extract_array(char str[]);
 void print_Curr_State();
-// int bankers_algo(int customer_number, int request);
-void release_resources(int customer_num, int release);
-int safety_algorithm(int processes, int available_resources, int max_required,int allocated_resources);
+
+int release_resources(int customer, int request[]);
+int safety_algorithm();
 
 int main(int argc, char* argv[]){
     count = argc - 1;
-	// printf("%d\n%d\n",argc,count);
+	
     printf("Currently available resources: ");
 	for (int i=0; i<count; i++){
         available_resources[i]=atoi(argv[i+1]);
         printf("%d ",available_resources[i]);
 	}
     printf("\n");
-    // num_of_resources= count;
-    
-    // printf("Enter number of customers: ");
-    // scanf("%d",(&num_of_customers));
     
 
     int i=0,j=0;
-
-   //RQ 1 2 3 4 5
-    // max_required[5][4] ={{6,4,7,3}, 
-    //                          {4,2,3,2},
-    //                          {2,5,3,3}, 
-    //                          {6,3,3,2}, 
-    //                          {5,5,7,5}
-    //                          };
-    
    
     printf("Maximum resources from file:\n");
     for(i=0 ;i<5;i++){
@@ -88,12 +69,15 @@ int main(int argc, char* argv[]){
 
     }
     
-    // int ch;
-    char check[20]={'\0'};
-    char *test;
-   
-   // while((ch = getchar()) != '\n' && ch != EOF);
-    test = check;
+    char check[13]={'\0'};
+    remaining_needed[5][4]= {
+                            {6,4,7,3}, 
+                            {4,2,3,2},
+                            {2,5,3,3}, 
+                            {6,3,3,2}, 
+                            {5,5,7,5}
+                            };
+
     while(1) {
         
         printf("Enter Command: \n");
@@ -101,69 +85,123 @@ int main(int argc, char* argv[]){
         // puts(check);
         
         if (strncmp(check, "Exit", 4) == 0) {
-            break;
+            break; //exit the loop
         }
         
+
         else if(strncmp(check,"RQ",2)==0){
            
-            // int strsize = strlen(check);
-            // char delimiter[] = " ";
-            char *array[6]={'\0'};
-            // int x=0;
-            // char *ptr = strtok(check, delimiter);
-            // while(ptr != NULL)
-            // {
-            //     printf("%s\n", ptr);
-            //     ptr = strtok(NULL, delimiter);
-		    // // add the code to split the string into an array
-		    //     char *string,*found;
-    		// 	char *list[100];
-    		i = 0;
-            int p=0;
-                // char *string;
-    			// string = strdup("test this text");
-   			 //int n = strlen(string);
-            int arr[5];
-            //int customer_number;
-    		printf("Original string: '%s'",check);
-            printf("\n");
-            
-    		while(strsep(&test," ") != NULL)
-            if(isdigit(strsep(&test," "))>0) {
-                array[i]=strsep(&test," "); 
-                // arr[p]=atoi(array[i]); 
-                p++;i ++;
-            }
-            printf("%s\n", array[i]);
-            // printf("%d ",arr[p]);
-        	
-            //  if(i>2){arr[p]=atoi(array[i]), p++;}
-            //     // else if(i==2) customer_number= atoi(array[i]);
-            //     
-
-            
-           // printf("%d",customer_number);
-            
+            int array[10],customer_id;
+    		i = 0, j=0;
+            int arr[10]={0,0,0,0,0,0,0,0,0,0};
+            int request[4]={0,0,0,0};
+            for(i=2;i<sizeof(check);i++){
+                if(isdigit(check[i])){
+                   
+                    array[i-2]=(int)(check[i]-'0');
+               
+                        arr[i-2]=array[i-2];
+                     
+                    j++;
+                    
+                }
                 
-            
-            // request_resources(customer,request);
-
+            }
+            customer_id=arr[1];
+           
+            j=0;
+           
+            for(i=3;i<10;i+=2){
+                
+                request[j]=arr[i];
+                
+                j++;
+            }
+          
+            int value= request_resources(customer_id,request);
+            if(value==0){
+                printf("\nState is unsafe, and request is unsatisfied\n");
+            }
+            else if(value==1){
+                 printf("\nState is safe, and request is satisfied\n");
+            }
             
         }
         else if(strncmp(check,"RL",2)==0){
-            printf("its rl");
+            int array[10],customer_id;
+    		i = 0, j=0;
+            int arr[10]={0,0,0,0,0,0,0,0,0,0};
+            int request[4]={0,0,0,0};
+            for(i=2;i<sizeof(check);i++){
+                if(isdigit(check[i])){
+                    array[i-2]=(int)(check[i]-'0');
+                    arr[i-2]=array[i-2];
+                    j++;
+                }
+            }
+            customer_id=arr[1];
+            j=0;
+            for(i=3;i<10;i+=2){
+                request[j]=arr[i];
+                j++;
+            }
+            int value= release_resources(customer_id,request);
+             if(value==0){
+               printf("Incorrect number of resources given.");
+            }
+            else if(value==1){
+                printf("Resources released.");
+            }
+            //release resources
         }
         else if(strncmp(check,"Status",6)==0){
             print_Curr_State();
+            //print all the arrays
         }
         else if(strncmp(check,"Run",3)==0){
-            printf("its run");
+            safety_algorithm();
+            //run all processes using safety algo
         }
     }
 	return 0;
 }
 
-int request_resources(int customer_num, int request[]){
+int release_resources(int customer,int request[]){
+
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){    
+        int allocated=allocated_resources[customer][i];
+
+        if(request[i]>allocated){
+            
+            return 0;
+
+        }
+    }
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){
+        int allocated=allocated_resources[customer][i];
+        available_resources[i]= available_resources[i]+request[i];
+        allocated_resources[customer][i]=allocated_resources[customer][i]-request[i];
+    }
+    
+    return 1;
+
+}
+int release_resources2(int customer,int request[]){
+
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){    
+        int allocated=allocated_resources[customer][i];
+
+        if(request[i]>allocated){
+            
+            return 0;
+
+        }
+    }
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){
+        int allocated=allocated_resources[customer][i];
+        available_resources[i]= available_resources[i]+request[i];
+        allocated_resources[customer][i]=allocated_resources[customer][i]-request[i];
+    }
     
     return 1;
 
