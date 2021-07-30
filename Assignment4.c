@@ -166,32 +166,71 @@ int main(int argc, char* argv[]){
 	return 0;
 }
 
+int release_resources(int customer,int request[]){
 
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){    
+        int allocated=allocated_resources[customer][i];
 
-int request_resources(int customer_num, int request[]){
-    
+        if(request[i]>allocated){
+            
+            return 0;
+
+        }
+    }
     for (int i=0; i!=NUM_OF_RESOURCES;i++){
-        if(request[i]<=remaining_needed[customer_num+1][i]){
-            if(request[i]<=available_resources[i]){
-                available_resources[i]= available_resources[i]-request[i];
-                allocated_resources[customer_num+1][i]=allocated_resources[customer_num+1][i]+request[i];
-                remaining_needed[customer_num+1][i]=remaining_needed[customer_num+1][i]+request[i];
-                printf("State is safe, and request is satisfied");
+        int allocated=allocated_resources[customer][i];
+        available_resources[i]= available_resources[i]+request[i];
+        allocated_resources[customer][i]=allocated_resources[customer][i]-request[i];
+    }
+    
+    return 1;
+
+}
+int release_resources2(int customer,int request[]){
+
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){    
+        int allocated=allocated_resources[customer][i];
+
+        if(request[i]>allocated){
+            
+            return 0;
+
+        }
+    }
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){
+        int allocated=allocated_resources[customer][i];
+        available_resources[i]= available_resources[i]+request[i];
+        allocated_resources[customer][i]=allocated_resources[customer][i]-request[i];
+    }
+    
+    return 1;
+
+}
+int request_resources(int customer_num, int request[]){
+    for (int i=0; i!=NUM_OF_RESOURCES;i++){
+        int req=remaining_needed[customer_num][i];
+        if(request[i]<=req){
+            if(request[i]>available_resources[i]){
+                return 0;
             }
         }else{
-            printf("State is unsafe, and request is unsatisfied");
             return 0;
         }
     }
-return 0;
+    for(int i=0;i!=NUM_OF_RESOURCES;i++){
+        int req=remaining_needed[customer_num][i];
+        available_resources[i]= available_resources[i]-request[i];
+        allocated_resources[customer_num][i]=allocated_resources[customer_num][i]+request[i];
+        remaining_needed[customer_num][i]=remaining_needed[customer_num][i]-request[i];    
+    }
+return 1;
 }
 
 void print_Curr_State(){
     int i=0,j=0;
     printf("\nAvailable Resources:\n");
     for(j=0;j<count;j++){
-        printf("%d ",available_resources[i]);
-        
+        printf("%d ",available_resources[j]);
     }
     printf("\nMaximum Resources:\n");
     for(i=0 ;i<5;i++){
@@ -203,9 +242,7 @@ void print_Curr_State(){
                 printf("\n");
             }
         }
-
     }
-
     printf("\nAllocated Resources:\n");
     for(i=0 ;i<5;i++){
         int n=0;
@@ -229,6 +266,90 @@ void print_Curr_State(){
         }
 
     }
+}
 
+int safety_algorithm(){
+    int safeseq[5]={0,0,0,0,0};
+    int z=0;
+    while(1){
 
+        int count=0;
+        int customer_num=0;
+        for(int i=0; i<NUM_OF_CUSTOMERS;i++){
+            int counter=0;
+            customer_num=i;
+            int request[4]={0,0,0,0};
+            for(int j=0;j<4;j++){
+                request[j]=remaining_needed[customer_num][j];
+                if(request[j]==0){
+                    counter++;
+                }
+            }
+            int value=0;
+            if(counter==4) {
+                value=0;
+                counter=0;
+            }else{
+                
+                value= request_resources(customer_num,request);
+              
+            }
+            
+            if(value==1){
+                safeseq[z]=customer_num;
+                z++;
+                
+                int allocated[4]={0,0,0,0};
+                for(int x=0;x<NUM_OF_RESOURCES;x++){
+                    allocated[x]= allocated_resources[customer_num][x];
+                }
+                 printf("\nCustomer/Thread %d",i);
+                int allo[4]={0,0,0,0};
+                printf("\nAllocated Resources: ");
+                for(int x=0;x<NUM_OF_RESOURCES;x++){
+                    allo[x]= allocated_resources[customer_num][x];
+                    printf("%d ",allo[x]);
+                }
+                printf("\nRemaining Resources: ");
+                for(int x=0;x<NUM_OF_RESOURCES;x++){
+                    allo[x]= remaining_needed[customer_num][x];
+                    printf("%d ",allo[x]);
+                }
+
+                printf("\nAvailable Resources: ");
+                for(int x=0;x<NUM_OF_RESOURCES;x++){
+                    allo[x]= available_resources[x];
+                    printf("%d ",allo[x]);
+                }
+                printf("\nThread has started");
+                  printf("\nThread has finished");
+                release_resources(customer_num,allocated);
+                printf("\nThread is releasing resources");
+
+                printf("\nNew Available: ");
+                for(int x=0;x<NUM_OF_RESOURCES;x++){
+                    allo[x]= available_resources[x];
+                    printf("%d ",allo[x]);
+                }
+                printf("\n------------------------------");
+                count++;
+            }
+// Customer/Thread 1
+//  Allocated resources: 1 1 1 1
+//  Needed: 3 1 2 1
+//  Available: 4 1 3 3
+//  Thread has started
+//  Thread has finished
+//  Thread is releasing resources
+//  New Available: 5 2 4 4
+            
+        }
+        if(count==0)break;
+    }
+    printf("\nSafe Squence is: ");
+    for(int i= 0; i<5;i++){
+        printf("%d->",safeseq[i]);
+    }
+    printf("\nFinished\n");
+    return 0;
 }
