@@ -13,67 +13,61 @@
 #include<pthread.h>
 #include<sys/stat.h>
 #include <ctype.h>
-// int n,m;
-// int NUMBER_OF_CUSTOMERS= n;
-// int NUMBER_OF_RESOURCES= m;
+
+
+/*we're now allowed to hardcode the number of customers and the number of resources
+and also allowed to hardcode the max_required array
+the makefile was also provided by the professor later
+ive commented on the part where im struggling inside the main inside the while loop
+*/
+
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
 int count=0;
 pthread_mutex_t mutex;
 
 //from the textbook chapter 8
-
 /* the available amount of each resource */
 int available_resources[NUM_OF_RESOURCES];   
 /*the maximum demand of each customer */
 int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES] ={
                             {6,4,7,3}, 
-                             {4,2,3,2},
-                             {2,5,3,3}, 
-                             {6,3,3,2}, 
-                             {5,5,7,5}
-                             };
+                            {4,2,3,2},
+                            {2,5,3,3}, 
+                            {6,3,3,2}, 
+                            {5,5,7,5}
+                            };
 /* the amount currently allocated to each customer */
 int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
 /* the remaining need of each customer */
-int remaining_needed[5][4];
-
-
-
-//return 0 if successful and -1 if unsuccessful
-// int request_resources(int customer_num, int request);
+int remaining_needed[5][4]= {
+                            {6,4,7,3}, 
+                            {4,2,3,2},
+                            {2,5,3,3}, 
+                            {6,3,3,2}, 
+                            {5,5,7,5}
+                            };
+int request_resources2(int customer_num, int request[]);
+int request_resources(int customer_num, int request[]);
 // int extract_customer(char str[]);
 // int* extract_array(char str[]);
 void print_Curr_State();
 // int bankers_algo(int customer_number, int request);
-void release_resources(int customer_num, int release);
-int safety_algorithm(int processes, int available_resources, int max_required,int allocated_resources);
+int release_resources(int customer, int request[]);
+int safety_algorithm();
 
 int main(int argc, char* argv[]){
     count = argc - 1;
-	// printf("%d\n%d\n",argc,count);
+	
     printf("Currently available resources: ");
 	for (int i=0; i<count; i++){
         available_resources[i]=atoi(argv[i+1]);
         printf("%d ",available_resources[i]);
 	}
     printf("\n");
-    // num_of_resources= count;
-    
-    // printf("Enter number of customers: ");
-    // scanf("%d",(&num_of_customers));
     
 
     int i=0,j=0;
-
-   //RQ 1 2 3 4 5
-    // max_required[5][4] ={{6,4,7,3}, 
-    //                          {4,2,3,2},
-    //                          {2,5,3,3}, 
-    //                          {6,3,3,2}, 
-    //                          {5,5,7,5}
-    //                          };
-    
    
     printf("Maximum resources from file:\n");
     for(i=0 ;i<5;i++){
@@ -88,11 +82,9 @@ int main(int argc, char* argv[]){
 
     }
     
-    // int ch;
-    char check[20]={'\0'};
+    char check[13]={'\0'};
     char *test;
    
-   // while((ch = getchar()) != '\n' && ch != EOF);
     test = check;
     while(1) {
         
@@ -101,69 +93,126 @@ int main(int argc, char* argv[]){
         // puts(check);
         
         if (strncmp(check, "Exit", 4) == 0) {
-            break;
+            break; //exit the loop
         }
-        
+        // if user inputs "RQ 2 3 4 5 6"
+        // means Requesting resources {3,4,5,6} for customer 2 
+        //struggling on this part where 
+        //i have to extract the customer number and the resource array
+
         else if(strncmp(check,"RQ",2)==0){
            
-            // int strsize = strlen(check);
-            // char delimiter[] = " ";
-            char *array[6]={'\0'};
-            // int x=0;
-            // char *ptr = strtok(check, delimiter);
-            // while(ptr != NULL)
-            // {
-            //     printf("%s\n", ptr);
-            //     ptr = strtok(NULL, delimiter);
-		    // // add the code to split the string into an array
-		    //     char *string,*found;
-    		// 	char *list[100];
-    		i = 0;
-            int p=0;
-                // char *string;
-    			// string = strdup("test this text");
-   			 //int n = strlen(string);
-            int arr[5];
-            //int customer_number;
-    		printf("Original string: '%s'",check);
-            printf("\n");
-            
-    		while(strsep(&test," ") != NULL)
-            if(isdigit(strsep(&test," "))>0) {
-                array[i]=strsep(&test," "); 
-                // arr[p]=atoi(array[i]); 
-                p++;i ++;
-            }
-            printf("%s\n", array[i]);
-            // printf("%d ",arr[p]);
-        	
-            //  if(i>2){arr[p]=atoi(array[i]), p++;}
-            //     // else if(i==2) customer_number= atoi(array[i]);
-            //     
-
-            
-           // printf("%d",customer_number);
-            
+            int array[10],customer_id;
+    		i = 0, j=0;
+            int arr[10]={0,0,0,0,0,0,0,0,0,0};
+            int request[4]={0,0,0,0};
+            for(i=2;i<sizeof(check);i++){
+                if(isdigit(check[i])){
+                    // printf("\n%c",check[i]);
+                    // if(i-2==1)
+                    array[i-2]=(int)(check[i]-'0');
+                    // int i = (int)(c - '/0')
+                //    sscanf(check[i], "%d", &array[i-2]);
+                //    printf("%d\n",array[i-2]);
+                    // if(i-2>=1){
+                        arr[i-2]=array[i-2];
+                        
+                    // }
+                    // else if(i-2==0){
+                        // customer_id=array[i-2];
+                    // }
+                    j++;
+                    
+                }
                 
-            
-            // request_resources(customer,request);
-
+            }
+            customer_id=arr[1];
+            // printf("customer_id: %d\n",customer_id);
+            // printf("j= %d\n",j);
+            j=0;
+            // int arr[4]={0,0,0,0};
+            for(i=3;i<10;i+=2){
+                // arr[i]=array[i+1];
+                // printf("%d\n",arr[i]);
+                request[j]=arr[i];
+                
+                j++;
+            }
+            // printf("request array:");
+            // for(i=0;i<4;i++){
+            //     // arr[i]=array[i+1];
+            //     printf("%d\n",request[i]);
+            // }
+            int value= request_resources(customer_id,request);
+            if(value==0){
+                printf("\nState is unsafe, and request is unsatisfied\n");
+            }
+            else if(value==1){
+                 printf("\nState is safe, and request is satisfied\n");
+            }
             
         }
         else if(strncmp(check,"RL",2)==0){
-            printf("its rl");
+            int array[10],customer_id;
+    		i = 0, j=0;
+            int arr[10]={0,0,0,0,0,0,0,0,0,0};
+            int request[4]={0,0,0,0};
+            for(i=2;i<sizeof(check);i++){
+                if(isdigit(check[i])){
+                    // printf("\n%c",check[i]);
+                    // if(i-2==1)
+                    array[i-2]=(int)(check[i]-'0');
+                    // int i = (int)(c - '/0')
+                //    sscanf(check[i], "%d", &array[i-2]);
+                //    printf("%d\n",array[i-2]);
+                    // if(i-2>=1){
+                        arr[i-2]=array[i-2];
+                        
+                    // }
+                    // else if(i-2==0){
+                        // customer_id=array[i-2];
+                    // }
+                    j++;
+                    
+                }
+                
+            }
+            customer_id=arr[1];
+            // printf("customer_id: %d\n",customer_id);
+            // printf("j= %d\n",j);
+            j=0;
+            // int arr[4]={0,0,0,0};
+            for(i=3;i<10;i+=2){
+                // arr[i]=array[i+1];
+                // printf("%d\n",arr[i]);
+                request[j]=arr[i];
+                
+                j++;
+            }
+            int value= release_resources(customer_id,request);
+             if(value==0){
+               printf("Incorrect number of resources given.");
+            }
+            else if(value==1){
+                printf("Resources released.");
+               
+            }
+            //release resources
         }
         else if(strncmp(check,"Status",6)==0){
             print_Curr_State();
+            //print all the arrays
         }
         else if(strncmp(check,"Run",3)==0){
-            printf("its run");
+            safety_algorithm();
+            //run all processes using safety algo
         }
         
         
     }
 	return 0;
 }
+
 
 int request_resources(int customer_num, int request[]){
     
