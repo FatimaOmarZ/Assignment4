@@ -4,7 +4,7 @@
 ## `Banker's Algorithm`
 
 ***********************************
- ###### ***Authors :***
+ ***Authors:***
   - **Fatima Omar** 
       - **Student ID#:** 191815080 
       - **Github Username:** FatimaOmarZ
@@ -12,11 +12,11 @@
       - **Student ID#:** 190977620
       - **Github Username:** M-Alzouabi
 ***********************************
-###### ***Motivation:***
+***Motivation:***
   - This code was developed and created as part of a course assignment.
 
 
-###### ***Installation:***
+***Installation:***
   - This code includes a makefile which is used to compile and test the code.
   - The makefile is made up of multiple commands:
       - CC = gcc
@@ -27,7 +27,7 @@
       - runq1: the command that compile the the file Question1.c and run it.
 
 
-###### ***ScreenShots:***
+***ScreenShots:***
 ![image](https://user-images.githubusercontent.com/64826345/127723944-5cdddbed-e8f6-4b1e-834e-56c17933336c.png)
 ![image](https://user-images.githubusercontent.com/64826345/127723994-137051fe-bc49-45af-98bb-8240d212148e.png)
 ![image](https://user-images.githubusercontent.com/64826345/127724112-50c7b017-602b-401c-9d1b-a6aa39b77eb7.png)
@@ -35,7 +35,7 @@
 ![image](https://user-images.githubusercontent.com/64826345/127724388-dbaed650-19e9-4969-a8ba-ce02aea5d05d.png)
 ![image](https://user-images.githubusercontent.com/64826345/127724407-9a4521fc-35c9-4eeb-bd98-46ede0b1e9cc.png)
 
-###### ***Individual Contribution:***
+***Individual Contribution:***
   - Most functions were done as a group, the rest that were done indiviually are listed below.
   - **Mohammad AL Zouabi**
      - Request Resources.
@@ -45,18 +45,18 @@
      - Safety Algorithm.
      - User input and file handling.
 
-###### ***Features:***
+***Features:***
 
 
-###### ***Code Examples:***
+***Code Examples:***
 
 
-###### ***Credits:***
+***Credits:***
   - Code from assignments two and three were refered to in the process of completing this assignment.
      - Assignment two was used to help with file handling.
      - Assignment three was used to help with mutex and thread manupilation  
   - Operating System Concepts - 10th Edition. [TextBook Link](https://codex.cs.yale.edu/avi/os-book/OS10/index.html)
      - Textbook and lecture slides were refered to in order to better understand different concepts and alogrithms used in this code such as; Banker's Algorithm and Safety Algorithm.
 
-###### ***License:***
+***License:***
 
