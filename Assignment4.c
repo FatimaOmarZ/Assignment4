@@ -1,10 +1,18 @@
 /*
 --------------------------------------------------
  Project: CP386-a04
- Title:    Banker's Algorithm
- Authors:  Fatima Omar & Mohammad Al Zouabi
---------------------------------------------------
+ Title:   Banker's Algorithm
+ Authors:
+    -Fatima Omar
+      - Student ID#: 191815080 
+      - Github Username: FatimaOmarZ
+    -Mohammad Al Zouabi
+      - Student ID#: 190977620
+      - Github Username: M-Alzouabi
 
+ HTTPS URL for Github Repository:  https://github.com/FatimaOmarZ/Assignment4.git
+
+--------------------------------------------------
  */
 
 #include<stdio.h>
@@ -18,9 +26,6 @@
 //Constants number of resources and number of customers
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
-
-int count=0;
-pthread_mutex_t mutex;
 
 //from the textbook chapter 8
 /* array that contains the available amount of each resource */
@@ -67,9 +72,9 @@ int safety_algorithm();
 
 
 int main(int argc, char* argv[]){
-    count = argc - 1;
-	printf("Number of Customers: 5");
-    printf("Currently available resources: ");
+    int count = argc - 1;
+	printf("Number of Customers: 5\n");
+    printf("Currently available resources: \n");
 	for (int i=0; i<count; i++){
         available_resources[i]=atoi(argv[i+1]);
         printf("%d ",available_resources[i]);
@@ -175,7 +180,7 @@ int main(int argc, char* argv[]){
                printf("\nIncorrect number of resources given.");
             }
             else if(value==1){
-                printf("\nThe resources have been released successfully");
+                printf("\nThe resources have been released successfully.");
             }
             while ((flush = getchar()) != '\n' && flush != EOF);
             //release resources
@@ -292,7 +297,7 @@ return 1;
 void print_Curr_State(){
     int i=0,j=0;
     printf("Available Resources:\n");
-    for(j=0;j<count;j++){
+    for(j=0;j<NUM_OF_RESOURCES;j++){
         printf("%d ",available_resources[j]);
     }
     printf("\nMaximum Resources:\n");
@@ -367,6 +372,7 @@ int safety_algorithm(){
     for(int i=0;i<NUM_OF_CUSTOMERS;i++){
         if(finish[i]==1)inc++;
     }
+    printf("Safe Sequence: ");
     if(inc>=NUM_OF_CUSTOMERS){
         for(int i=0;i<NUM_OF_CUSTOMERS;i++)printf("%d ",safeseq[i]);
     }
