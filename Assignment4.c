@@ -4,6 +4,7 @@
  Title:    Banker's Algorithm
  Authors:  Fatima Omar & Mohammad Al Zouabi
 --------------------------------------------------
+
  */
 
 #include<stdio.h>
@@ -174,7 +175,7 @@ int main(int argc, char* argv[]){
                printf("\nIncorrect number of resources given.");
             }
             else if(value==1){
-                printf("\nResources released.");
+                printf("\nThe resources have been released successfully");
             }
             while ((flush = getchar()) != '\n' && flush != EOF);
             //release resources
