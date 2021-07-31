@@ -156,7 +156,7 @@ int main(int argc, char* argv[]){
             else if(value==1){
                 printf("\nResources released.");
             }
-            //release resources
+            //Release Resources
         }
         else if(strncmp(check,"Status",6)==0){
             print_Curr_State();
