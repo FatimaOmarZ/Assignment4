@@ -31,9 +31,9 @@ int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES]={
                             {6,3,3,2}, 
                             {5,5,7,5}
                             };
-/* the amount currently allocated to each customer */
+/* The amount currently allocated to each customer */
 int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
-/* the remaining need of each customer */
+/* The remaining need of each customer */
 int remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES]={{6,4,7,3}, 
                             {4,2,3,2},
                             {2,5,3,3}, 
