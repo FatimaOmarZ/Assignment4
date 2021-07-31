@@ -48,9 +48,9 @@
 - User can enter commands multiple commands such as:
 - <RQ [int customer_number] [int Resource 1] [int Resource 2] [int Resource 3] [int Resource 4]> which is used for requesting resource. If the request leaves the system unsafe it will be denied. If the system state is safe, the resources would be allocated and a message “State is safe, and request is satisfied” would be printed.
 - <RL [int customer_number] [int Resource 1] [int Resource 2] [int Resource 3] [int Resource 4]> which will release the resources and data structures would be updated accordingly. It would print “The resources have been released successfully”.
-- <Status>: ‘Status’ command prints all arrays and matrices used (available, maximum, allocation, and remaining need).
-- <Run>: ‘Run’ command prints the safe sequence first and then executes customers as threads in a safe sequence. Each thread requests the resources it needs, releases them, and lets the next thread in the sequence run.
-- <Exit>: The ‘Exit’ command is used to exit the loop and the program.
+- <Status> ‘Status’ command prints all arrays and matrices used (available, maximum, allocation, and remaining need).
+- <Run> ‘Run’ command prints the safe sequence first and then executes customers as threads in a safe sequence. Each thread requests the resources it needs, releases them, and lets the next thread in the sequence run.
+- <Exit> The ‘Exit’ command is used to exit the loop and the program.
 
 ***Credits:***
   - Code from assignments two and three were refered to in the process of completing this assignment.
