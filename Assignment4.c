@@ -20,10 +20,10 @@
 int count=0;
 pthread_mutex_t mutex;
 
-//from the textbook chapter 8
-/* the available amount of each resource */
+//From the textbook chapter 8
+/* The available amount of each resource */
 int available_resources[NUM_OF_RESOURCES];   
-/*the maximum demand of each customer */
+/*The maximum demand of each customer */
 int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES]={
                             {6,4,7,3}, 
                             {4,2,3,2},
