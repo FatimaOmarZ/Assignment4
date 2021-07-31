@@ -14,16 +14,17 @@
 #include<sys/stat.h>
 #include <ctype.h>
 
-
+//Constants number of resources and number of customers
 #define NUM_OF_CUSTOMERS 5
 #define NUM_OF_RESOURCES 4
+
 int count=0;
 pthread_mutex_t mutex;
 
-//From the textbook chapter 8
-/* The available amount of each resource */
+//from the textbook chapter 8
+/* array that contains the available amount of each resource */
 int available_resources[NUM_OF_RESOURCES];   
-/*The maximum demand of each customer */
+/*2d array that represents the maximum required resource of each customer */
 int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES]={
                             {6,4,7,3}, 
                             {4,2,3,2},
@@ -31,22 +32,38 @@ int max_required[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES]={
                             {6,3,3,2}, 
                             {5,5,7,5}
                             };
-/* The amount currently allocated to each customer */
+/* 2d array that represents the allocated resources for each customer */
 int allocated_resources[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES];
-/* The remaining need of each customer */
+/* 2d array that represents the remaining need for each customer
+*/
 int remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_RESOURCES]={{6,4,7,3}, 
                             {4,2,3,2},
                             {2,5,3,3}, 
                             {6,3,3,2}, 
                             {5,5,7,5}
                             };
+
+// request resources function for safety algorithm returns 1 if successful else returns 0
+//also prints required print statements for the output
 int request_resources2(int customer_num, int request[]);
+
+//request resource function for when the user inputs a list of request for a specific customer
+//returns 1 if successful else 0
 int request_resources(int customer_num, int request[]);
 
+//prints the current state of all the matrices
 void print_Curr_State();
 
+/*releases resources used when the user inputs list of resources it wants to be released
+ for a specific customer, returns 1 if successful and 0 if unsuccessful 
+ its also used by the safety algorithm which is used for when the Run command is given by the user
+*/
 int release_resources(int customer, int request[]);
+/* extracts the safe sequence and then executes those threads in order of the safe sequence
+also contains required print statements
+*/
 int safety_algorithm();
+
 
 int main(int argc, char* argv[]){
     count = argc - 1;
@@ -60,7 +77,7 @@ int main(int argc, char* argv[]){
     
 
     int i=0,j=0;
-   
+   //printing out the maximum required resources 2d array given
     printf("Maximum resources from file:\n");
     for(i=0 ;i<5;i++){
         int n=0;
@@ -75,24 +92,22 @@ int main(int argc, char* argv[]){
     }
     
     char check[13]={'\0'};
-    // remaining_needed[NUM_OF_CUSTOMERS][NUM_OF_CUSTOMERS]= 
     char flush;
-    // 
     
-    // printf("\n");
+    //loop that keeps asking user for a command and exits only when 'Exit' entered
     while(1) {
-        // fflush(stdin);
-        printf("\nEnter Command: ");
         
+        printf("\nEnter Command: ");
         fgets(check,sizeof(check),stdin);
-        // puts(check);
-        fflush(stdin);
-        // while ((flush = getchar()) != '\n' && flush != EOF);
+
+        //checks if the user entered 'Exit' if true then exit the loop        
         if (strncmp(check, "Exit", 4) == 0) {
             break; //exit the loop
         }
         
-
+        //checks if the user entered a string starting with RQ 
+        //if yes then separate the requested resources and customer id
+        //& convert the string to int and pass them to the request_resources funtion
         else if(strncmp(check,"RQ",2)==0){
            
             int array[10],customer_id;
@@ -123,14 +138,19 @@ int main(int argc, char* argv[]){
             }
           
             int value= request_resources(customer_id,request);
+
             if(value==0){
-                printf("\nState is unsafe, and request is unsatisfied\n");
+                printf("\nState is unsafe, and request is unsatisfied");
             }
             else if(value==1){
-                 printf("\nState is safe, and request is satisfied\n");
+                 printf("\nState is safe, and request is satisfied");
             }
-            
+           while ((flush = getchar()) != '\n' && flush != EOF);
         }
+
+        //checks if the user entered a string starting with RL
+        //if yes then separate the requested resources and customer id
+        //& convert the string to int and pass them to the release_resources function
         else if(strncmp(check,"RL",2)==0){
             int array[10],customer_id;
     		i = 0, j=0;
@@ -156,16 +176,27 @@ int main(int argc, char* argv[]){
             else if(value==1){
                 printf("\nResources released.");
             }
-            //Release Resources
+            while ((flush = getchar()) != '\n' && flush != EOF);
+            //release resources
         }
+        //checks if user entered a string 'Status' and if true then 
+        //call the print_Curr_State function and print all the arrays
         else if(strncmp(check,"Status",6)==0){
             print_Curr_State();
             //print all the arrays
+            printf(" ");
+            
         }
+        //checks if user entered a string 'Run' and if true then 
+        //call the safety_algorithm function that first finds the safe sequence and then 
+        // executes all the processes in order of the safe sequence
         else if(strncmp(check,"Run",3)==0){
             safety_algorithm();
-            //run all processes using safety algo
+            //run all processes using safety algorithm
+            printf(" ");
         }
+        
+        
     }
 	return 0;
 }
@@ -182,7 +213,6 @@ int release_resources(int customer,int request[]){
         }
     }
     for (int i=0; i!=NUM_OF_RESOURCES;i++){
-        int allocated=allocated_resources[customer][i];
         available_resources[i]= available_resources[i]+request[i];
         allocated_resources[customer][i]=allocated_resources[customer][i]-request[i];
     }
@@ -202,14 +232,34 @@ int request_resources2(int customer_num, int request[]){
             return 0;
         }
     }
+    printf("\n--> Customer/Thread %d",customer_num);
+    int allo[4]={0,0,0,0};
+    printf("\n    Allocated Resources: ");
+    for(int x=0;x<NUM_OF_RESOURCES;x++){
+        allo[x]= allocated_resources[customer_num][x];
+        printf("%d ",allo[x]);
+    }
+    printf("\n    Remaining Resources: ");
+    for(int x=0;x<NUM_OF_RESOURCES;x++){
+        allo[x]= remaining_needed[customer_num][x];
+        printf("%d ",allo[x]);
+    }
+
+    printf("\n    Available Resources: ");
+    for(int x=0;x<NUM_OF_RESOURCES;x++){
+        allo[x]= available_resources[x];
+        printf("%d ",allo[x]);
+    }
+    printf("\n    Thread has started");
+        
     for(int i=0;i!=NUM_OF_RESOURCES;i++){
-        int req=remaining_needed[customer_num][i];
         available_resources[i]= available_resources[i]-request[i];
         allocated_resources[customer_num][i]=allocated_resources[customer_num][i]+request[i];
         remaining_needed[customer_num][i]=remaining_needed[customer_num][i]-request[i];    
     }
 return 1;
 }
+
 int request_resources(int customer_num, int request[]){
     for (int i=0; i!=NUM_OF_RESOURCES;i++){
         int req=remaining_needed[customer_num][i];
@@ -222,7 +272,6 @@ int request_resources(int customer_num, int request[]){
         }
     }
     for(int i=0;i!=NUM_OF_RESOURCES;i++){
-        int req=remaining_needed[customer_num][i];
         available_resources[i]= available_resources[i]-request[i];
         allocated_resources[customer_num][i]=allocated_resources[customer_num][i]+request[i];
         remaining_needed[customer_num][i]=remaining_needed[customer_num][i]-request[i];    
@@ -271,7 +320,6 @@ void print_Curr_State(){
 
     }
 }
-
 int safety_algorithm(){
     int safeseq[5]={0,0,0,0,0}, seq=0,check=0,finish[5]={0,0,0,0,0};
     int z=0, flag=0,inc=0;
