@@ -50,6 +50,26 @@
 - The **'Run'** command prints the safe sequence first and then executes customers as threads in a safe sequence. Each thread requests the resources it needs, releases them, and lets the next thread in the sequence run.
 - The **'Exit'** command is used to exit the loop and the program.
 
+
+***Examples:***
+
+**How the "RQ" and the "RL" command works: **
+
+![image](https://user-images.githubusercontent.com/87793706/127747415-f87310ee-4ca6-4290-a090-4cc0f482c12d.png)
+
+**How the "Status" command works: **
+
+![image](https://user-images.githubusercontent.com/87793706/127747469-1406ae94-c745-4764-8e80-acabc659f02d.png)
+
+**How the "Run" command works: **
+
+![image](https://user-images.githubusercontent.com/87793706/127747529-d0d93af7-2505-46a7-b98a-7e6b75129473.png)
+
+**Entering "Exit" exits the code: **
+
+![image](https://user-images.githubusercontent.com/87793706/127747558-50631fe8-9550-4ef6-8872-844730387861.png)
+
+
 ***Credits:***
   - Code from assignments two and three were refered to in the process of completing this assignment.
      - Assignment two was used to help with file handling.
