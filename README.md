@@ -57,4 +57,4 @@
      - Textbook and lecture slides were refered to in order to better understand different concepts and alogrithms used in this code such as; Banker's Algorithm and Safety Algorithm.
 
 ***License:***
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+    [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
