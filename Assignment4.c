@@ -59,7 +59,7 @@ void print_Curr_State();
  its also used by the safety algorithm which is used for when the Run command is given by the user
 */
 int release_resources(int customer, int request[]);
-/* extracts the safe sequence and then executes those threads in order of the safe sequence
+/* works out the safe sequence and then executes those threads in order of the safe sequence
 also contains required print statements
 */
 int safety_algorithm();
@@ -195,12 +195,14 @@ int main(int argc, char* argv[]){
             //run all processes using safety algorithm
             printf(" ");
         }
-        
-        
     }
 	return 0;
 }
 
+/*releases resources used in main when the user inputs list of resources it wants to be released
+ for a specific customer, returns 1 if successful and 0 if unsuccessful 
+ its also used by the safety algorithm which is used for when the Run command is given by the user
+*/
 int release_resources(int customer,int request[]){
 
     for (int i=0; i!=NUM_OF_RESOURCES;i++){    
@@ -221,6 +223,8 @@ int release_resources(int customer,int request[]){
 
 }
 
+/* separate request resources function for safety algorithm returns 1 if successful else returns 0
+also prints the required statements for the output*/
 int request_resources2(int customer_num, int request[]){
     for (int i=0; i!=NUM_OF_RESOURCES;i++){
         int req=remaining_needed[customer_num][i];
@@ -260,6 +264,10 @@ int request_resources2(int customer_num, int request[]){
 return 1;
 }
 
+/*request resource function used in main for when the user inputs a
+ list of request for a specific customer
+ returns 1 if successful else 0
+*/
 int request_resources(int customer_num, int request[]){
     for (int i=0; i!=NUM_OF_RESOURCES;i++){
         int req=remaining_needed[customer_num][i];
@@ -279,6 +287,7 @@ int request_resources(int customer_num, int request[]){
 return 1;
 }
 
+//prints all the current values of all the matrices
 void print_Curr_State(){
     int i=0,j=0;
     printf("Available Resources:\n");
@@ -321,6 +330,9 @@ void print_Curr_State(){
     }
 }
 
+/* works out the safe sequence and then executes those threads in order of the safe sequence
+also contains required print statements
+*/
 int safety_algorithm(){
     int safeseq[5]={0,0,0,0,0}, seq=0,check=0,finish[5]={0,0,0,0,0};
     int inc=0;
