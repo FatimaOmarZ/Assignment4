@@ -1,20 +1,3 @@
-/*
---------------------------------------------------
- Project: CP386-a04
- Title:   Banker's Algorithm
- Authors:
-    -Fatima Omar
-      - Student ID#: 191815080 
-      - Github Username: FatimaOmarZ
-    -Mohammad Al Zouabi
-      - Student ID#: 190977620
-      - Github Username: M-Alzouabi
-
- HTTPS URL for Github Repository:  https://github.com/FatimaOmarZ/Assignment4.git
-
---------------------------------------------------
- */
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
