@@ -71,11 +71,9 @@
 
 
 ***Credits:***
-  - Code from assignments two and three were refered to in the process of completing this assignment.
-     - Assignment two was used to help with file handling.
-     - Assignment three was used to help with mutex and thread manupilation  
-  - Operating System Concepts - 10th Edition. [TextBook Link](https://codex.cs.yale.edu/avi/os-book/OS10/index.html)
-     - Textbook and lecture slides were referred in order to better understand different concepts and alogrithms used in this code such as; Requesting Resource  and Safety Algorithm.
+  - The textbook and the lecture slides were used as guidance in of completing this assignment.
+     - Operating System Concepts - 10th Edition. [TextBook Link](https://codex.cs.yale.edu/avi/os-book/OS10/index.html)
+     - Textbook and lecture slides were referred in order to better understand different concepts and alogrithms used in this code such as; Requesting Resource and Safety Algorithm.
 
 ***License:***
 
