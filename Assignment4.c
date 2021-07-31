@@ -320,9 +320,12 @@ void print_Curr_State(){
 
     }
 }
+
 int safety_algorithm(){
     int safeseq[5]={0,0,0,0,0}, seq=0,check=0,finish[5]={0,0,0,0,0};
-    int z=0, flag=0,inc=0;
+    int inc=0;
+
+    //**Prints the safe sequence before the processes are executed**
     int work[NUM_OF_RESOURCES];
     for(int i=0;i<NUM_OF_RESOURCES;i++){
        work[i]=available_resources[i];
@@ -352,8 +355,10 @@ int safety_algorithm(){
         if(finish[i]==1)inc++;
     }
     if(inc>=NUM_OF_CUSTOMERS){
-        for(int i=0;i<NUM_OF_CUSTOMERS;i++)printf("%d",safeseq[i]);
+        for(int i=0;i<NUM_OF_CUSTOMERS;i++)printf("%d ",safeseq[i]);
     }
+
+    //**Execution of processes after the safe sequence has been identified**
     while(1){
 
         int count=0;
@@ -374,65 +379,33 @@ int safety_algorithm(){
                 counter=0;
             }else{
                 
-                value= request_resources(customer_num,request);
+                value= request_resources2(customer_num,request);
 
             }
             
             if(value==1){
-                safeseq[z]=customer_num;
-                z++;
-                
                 int allocated[4]={0,0,0,0};
+                int allo[4]={0,0,0,0};
                 for(int x=0;x<NUM_OF_RESOURCES;x++){
                     allocated[x]= allocated_resources[customer_num][x];
                 }
-                 printf("\n--> Customer/Thread %d",i);
-                int allo[4]={0,0,0,0};
-                printf("\n     Allocated Resources: ");
-                for(int x=0;x<NUM_OF_RESOURCES;x++){
-                    allo[x]= allocated_resources[customer_num][x];
-                    printf("%d ",allo[x]);
-                }
-                printf("\n     Remaining Resources: ");
-                for(int x=0;x<NUM_OF_RESOURCES;x++){
-                    allo[x]= remaining_needed[customer_num][x];
-                    printf("%d ",allo[x]);
-                }
-
-                printf("\n     Available Resources: ");
-                for(int x=0;x<NUM_OF_RESOURCES;x++){
-                    allo[x]= available_resources[x];
-                    printf("%d ",allo[x]);
-                }
-                printf("\n     Thread has started");
-                  printf("\n     Thread has finished");
+                 printf("\n    Thread has finished");
                 release_resources(customer_num,allocated);
-                printf("\n     Thread is releasing resources");
+                printf("\n    Thread is releasing resources");
 
-                printf("\n     New Available: ");
-                for(int x=0;x<NUM_OF_RESOURCES;x++){
+                printf("\n    New Available: ");
+                for(int x=0;x!=4;x++){
                     allo[x]= available_resources[x];
                     printf("%d ",allo[x]);
                 }
-                printf("\n------------------------------\n");
+                printf("\n-----------------------------------\n");
+                
                 count++;
             }
-// Customer/Thread 1
-//  Allocated resources: 1 1 1 1
-//  Needed: 3 1 2 1
-//  Available: 4 1 3 3
-//  Thread has started
-//  Thread has finished
-//  Thread is releasing resources
-//  New Available: 5 2 4 4
-            
         }
         if(count==0)break;
     }
-    // printf("\nSafe Squence is: ");
-    // for(int i= 0; i<5;i++){
-    //     printf("%d->",safeseq[i]);
-    // }
-    printf("\nFinished\n");
     return 0;
 }
+
+
