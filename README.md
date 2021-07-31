@@ -6,10 +6,8 @@
 ***********************************
  ***Authors:***
   - **Fatima Omar** 
-      - **Student ID#:** 191815080 
       - **Github Username:** FatimaOmarZ
   - **Mohammad Al Zouabi**
-      - **Student ID#:** 190977620
       - **Github Username:** M-Alzouabi
 ***********************************
 ***Motivation:***
